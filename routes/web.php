@@ -2,31 +2,33 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CursoController;
+use App\Http\Controllers\LoginController;
 
-// Rota principal (Home do site)
+// 1. Rota da Home (Raiz do site)
 Route::get('/', function () {
     return view('welcome');
 });
 
-// Grupo de rotas do Admin (Todas começam com /admin/...)
-Route::prefix('admin')->group(function () {
+// 2. Rotas de Autenticação (Login / Sair)
+Route::get('/login', [LoginController::class, 'index'])->name('login');
+Route::post('/login/entrar', [LoginController::class, 'entrar'])->name('login.entrar');
+Route::get('/login/sair', [LoginController::class, 'sair'])->name('login.sair');
+
+// 3. Grupo de rotas do Admin (Protegido por senha usando o Middleware 'auth')
+Route::middleware(['auth'])->prefix('admin')->group(function () {
     
-    // Lista todos os cursos
+    // Listagem de cursos
     Route::get('/cursos', [CursoController::class, 'index'])->name('admin.cursos');
     
-    // Abre a tela com o formulário para adicionar
+    // Criação/Salvar Cursos
     Route::get('/cursos/adicionar', [CursoController::class, 'adicionar'])->name('admin.cursos.adicionar');
-    
-    // Recebe os dados do formulário e salva no banco de dados (POST)
     Route::post('/cursos/salvar', [CursoController::class, 'salvar'])->name('admin.cursos.salvar');
     
-    // Abre a tela de edição carregando os dados do curso específico pelo {id}
+    // Edição/Atualizar Cursos
     Route::get('/cursos/editar/{id}', [CursoController::class, 'editar'])->name('admin.cursos.editar');
-    
-    // Recebe as alterações da tela de edição e atualiza o banco de dados (PUT)
     Route::put('/cursos/atualizar/{id}', [CursoController::class, 'atualizar'])->name('admin.cursos.atualizar');
     
-    // Deleta o curso do banco de dados com base no {id}
+    // Exclusão de Cursos
     Route::get('/cursos/excluir/{id}', [CursoController::class, 'excluir'])->name('admin.cursos.excluir');
     
 });
