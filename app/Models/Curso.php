@@ -11,7 +11,6 @@ class Curso extends Model
         'titulo', 
         'descricao', 
         'imagem', 
-        'valor', 
         'publicado'
     ];
 }

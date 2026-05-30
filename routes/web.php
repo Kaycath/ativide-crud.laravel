@@ -4,10 +4,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\CursoController;
 use App\Http\Controllers\LoginController;
 
-// 1. Rota da Home (Raiz do site)
+// 1. Rota da Home alterada para carregar os cursos na página inicial!
 Route::get('/', function () {
-    return view('welcome');
-});
+    $rows = \App\Models\Curso::all();
+    return view('admin.cursos.index', compact('rows'));
+})->name('home');
 
 // 2. Rotas de Autenticação (Login / Sair)
 Route::get('/login', [LoginController::class, 'index'])->name('login');

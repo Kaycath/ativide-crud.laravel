@@ -8,11 +8,6 @@
   <label>Descrição</label>
 </div>
 
-<div class="input-field">
-  <input type="text" name="valor" value="{{ isset($linha->valor) ? $linha->valor : '' }}">
-  <label>Valor</label>
-</div>
-
 <div class="file-field input-field">
   <div class="btn blue">
     <span>Imagem</span>
